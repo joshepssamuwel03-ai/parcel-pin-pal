@@ -109,7 +109,7 @@ function Settings() {
       <section className="mt-4 rounded-2xl bg-card p-4 shadow-soft">
         <h2 className="mb-2 text-sm font-bold text-muted-foreground">About</h2>
         <Row icon={<Info className="size-5 text-primary" />} label="Parcel Customer Location Tracker" sub="Version 1.0.0" />
-        <Row icon={<Shield className="size-5 text-secondary" />} label="Offline-first" sub="Your data stays on this device" />
+        <Row icon={<Shield className="size-5 text-secondary" />} label="Cloud sync + offline" sub="Saved to your account, works offline too" />
       </section>
 
       <div className="mt-6 flex flex-col items-center gap-2 rounded-2xl gradient-brand p-5 text-center text-primary-foreground shadow-float">
