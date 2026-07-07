@@ -32,6 +32,14 @@ function Home() {
   const [selected, setSelected] = useState<Customer | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
   const [satellite, setSatellite] = useState(false);
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => setDark(getStoredTheme() === "dark"), []);
+  const toggleTheme = () => {
+    const next = !dark;
+    setDark(next);
+    setStoredTheme(next ? "dark" : "light");
+  };
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
