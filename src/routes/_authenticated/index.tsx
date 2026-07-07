@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useRef, useState } from "react";
-import { Search, Bell, Crosshair, Layers, Plus, X, MapPin } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Search, Bell, Crosshair, Layers, Plus, X, MapPin, Moon, Sun } from "lucide-react";
 import { MapView, type MapControl } from "@/components/MapView";
 import { AddCustomerSheet } from "@/components/AddCustomerSheet";
 import { CustomerDetailSheet } from "@/components/CustomerDetailSheet";
@@ -8,7 +8,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { useGps } from "@/lib/use-gps";
 import { useCustomers, useHydrated } from "@/lib/use-customers";
 import { markerColor } from "@/lib/markers";
-import type { Customer } from "@/lib/store";
+import { getStoredTheme, setStoredTheme, type Customer } from "@/lib/store";
 
 export const Route = createFileRoute("/_authenticated/")({
   component: Home,
