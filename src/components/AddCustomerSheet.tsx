@@ -157,6 +157,37 @@ export function AddCustomerSheet({
           maxLength={200}
         />
 
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          className="hidden"
+          onChange={onPickPhoto}
+        />
+        {photo ? (
+          <div className="relative overflow-hidden rounded-2xl border border-border">
+            <img src={photo} alt="Customer location" className="h-40 w-full object-cover" />
+            <button
+              type="button"
+              onClick={() => setPhoto(undefined)}
+              className="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-card/90 shadow-soft backdrop-blur"
+              aria-label="Remove photo"
+            >
+              <X className="size-4" />
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-input py-3.5 text-sm font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+          >
+            <Camera className="size-5" /> Add photo (optional)
+          </button>
+        )}
+
+
         <button
           onClick={save}
           disabled={saving}
