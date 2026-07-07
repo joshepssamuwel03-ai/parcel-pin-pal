@@ -92,6 +92,7 @@ function toRow(c: Customer) {
     lat: c.lat,
     lng: c.lng,
     accuracy: c.accuracy ?? null,
+    photo: c.photo ?? null,
     favorite: c.favorite,
     deliveries: c.deliveries,
     created_at: c.createdAt,
