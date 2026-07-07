@@ -12,7 +12,8 @@ import { Toaster } from "sonner";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { getStoredTheme } from "../lib/store";
+import { getStoredTheme, setActiveUser } from "../lib/store";
+import { supabase } from "../integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
