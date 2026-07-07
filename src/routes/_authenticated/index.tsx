@@ -10,7 +10,7 @@ import { useCustomers, useHydrated } from "@/lib/use-customers";
 import { markerColor } from "@/lib/markers";
 import type { Customer } from "@/lib/store";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/")({
   component: Home,
 });
 

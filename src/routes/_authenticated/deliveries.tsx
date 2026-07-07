@@ -5,7 +5,7 @@ import { PageShell } from "@/components/PageShell";
 import { useCustomers } from "@/lib/use-customers";
 import { relativeDate } from "@/lib/geo";
 
-export const Route = createFileRoute("/deliveries")({
+export const Route = createFileRoute("/_authenticated/deliveries")({
   head: () => ({
     meta: [
       { title: "Deliveries — Parcel Tracker" },

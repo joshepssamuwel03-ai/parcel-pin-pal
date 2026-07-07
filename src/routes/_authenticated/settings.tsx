@@ -6,7 +6,7 @@ import { PageShell } from "@/components/PageShell";
 import { CREDIT, customerStore, getStoredTheme, setStoredTheme } from "@/lib/store";
 import { useCustomers } from "@/lib/use-customers";
 
-export const Route = createFileRoute("/settings")({
+export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({
     meta: [
       { title: "Settings — Parcel Tracker" },
