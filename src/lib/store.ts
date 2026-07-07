@@ -16,6 +16,7 @@ export interface Customer {
   lat: number;
   lng: number;
   accuracy?: number;
+  photo?: string;
   favorite: boolean;
   createdAt: string;
   deliveries: Delivery[];
