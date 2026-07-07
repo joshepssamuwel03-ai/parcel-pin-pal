@@ -73,6 +73,7 @@ export function AddCustomerSheet({
         lat,
         lng,
         accuracy: accuracy ?? undefined,
+        photo,
       });
       setSaving(false);
       toast.success("Customer saved", { description: name });
