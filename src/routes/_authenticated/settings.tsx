@@ -1,10 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Moon, Sun, Info, Shield, Trash2, MapPin, Heart } from "lucide-react";
+import { Moon, Sun, Info, Shield, Trash2, MapPin, Heart, LogOut, User, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
-import { CREDIT, customerStore, getStoredTheme, setStoredTheme } from "@/lib/store";
+import { CREDIT, customerStore, getStoredTheme, setStoredTheme, syncFromCloud } from "@/lib/store";
 import { useCustomers } from "@/lib/use-customers";
+import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({
@@ -18,16 +20,32 @@ export const Route = createFileRoute("/_authenticated/settings")({
 
 function Settings() {
   const [dark, setDark] = useState(false);
+  const [email, setEmail] = useState("");
   const customers = useCustomers();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     setDark(getStoredTheme() === "dark");
+    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? ""));
   }, []);
 
   const toggleDark = () => {
     const next = !dark;
     setDark(next);
     setStoredTheme(next ? "dark" : "light");
+  };
+
+  const signOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  };
+
+  const resync = async () => {
+    await syncFromCloud();
+    toast.success("Synced with cloud");
   };
 
   const clearAll = () => {
