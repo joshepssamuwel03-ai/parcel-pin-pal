@@ -75,6 +75,13 @@ export function CustomerDetailSheet({
 
       {tab === "info" && (
         <div className="space-y-3">
+          {customer.photo && (
+            <img
+              src={customer.photo}
+              alt={`${customer.name} location`}
+              className="h-44 w-full rounded-2xl border border-border object-cover"
+            />
+          )}
           <InfoRow icon={<Phone className="size-4" />} value={customer.phone} />
           <InfoRow icon={<MapPin className="size-4" />} value={customer.address} />
           {customer.landmark && (

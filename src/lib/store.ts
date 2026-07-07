@@ -16,6 +16,7 @@ export interface Customer {
   lat: number;
   lng: number;
   accuracy?: number;
+  photo?: string;
   favorite: boolean;
   createdAt: string;
   deliveries: Delivery[];
@@ -91,6 +92,7 @@ function toRow(c: Customer) {
     lat: c.lat,
     lng: c.lng,
     accuracy: c.accuracy ?? null,
+    photo: c.photo ?? null,
     favorite: c.favorite,
     deliveries: c.deliveries,
     created_at: c.createdAt,
@@ -108,6 +110,7 @@ function fromRow(r: Record<string, unknown>): Customer {
     lat: r.lat as number,
     lng: r.lng as number,
     accuracy: (r.accuracy as number) ?? undefined,
+    photo: (r.photo as string) ?? undefined,
     favorite: !!r.favorite,
     createdAt: (r.created_at as string) ?? new Date().toISOString(),
     deliveries: (r.deliveries as Delivery[]) ?? [],

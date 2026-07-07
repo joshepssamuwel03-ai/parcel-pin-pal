@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { MapPin, Loader2, Check } from "lucide-react";
+import { MapPin, Loader2, Check, Camera, X } from "lucide-react";
 import { BottomSheet } from "./BottomSheet";
 import { MapView, type MapControl } from "./MapView";
 import { customerStore } from "@/lib/store";
@@ -23,10 +23,24 @@ export function AddCustomerSheet({
   const [address, setAddress] = useState("");
   const [landmark, setLandmark] = useState("");
   const [notes, setNotes] = useState("");
+  const [photo, setPhoto] = useState<string | undefined>(undefined);
   const [saving, setSaving] = useState(false);
   const ctrl = useRef<MapControl | null>(null);
+  const fileRef = useRef<HTMLInputElement | null>(null);
 
   const lowAccuracy = accuracy != null && accuracy > 40;
+
+  const onPickPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 8 * 1024 * 1024) {
+      toast.error("Photo too large (max 8MB)");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => setPhoto(reader.result as string);
+    reader.readAsDataURL(file);
+  };
 
   const reset = () => {
     setName("");
@@ -34,6 +48,7 @@ export function AddCustomerSheet({
     setAddress("");
     setLandmark("");
     setNotes("");
+    setPhoto(undefined);
   };
 
   const save = () => {
@@ -58,6 +73,7 @@ export function AddCustomerSheet({
         lat,
         lng,
         accuracy: accuracy ?? undefined,
+        photo,
       });
       setSaving(false);
       toast.success("Customer saved", { description: name });
@@ -140,6 +156,37 @@ export function AddCustomerSheet({
           rows={2}
           maxLength={200}
         />
+
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          className="hidden"
+          onChange={onPickPhoto}
+        />
+        {photo ? (
+          <div className="relative overflow-hidden rounded-2xl border border-border">
+            <img src={photo} alt="Customer location" className="h-40 w-full object-cover" />
+            <button
+              type="button"
+              onClick={() => setPhoto(undefined)}
+              className="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-card/90 shadow-soft backdrop-blur"
+              aria-label="Remove photo"
+            >
+              <X className="size-4" />
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-input py-3.5 text-sm font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+          >
+            <Camera className="size-5" /> Add photo (optional)
+          </button>
+        )}
+
 
         <button
           onClick={save}
