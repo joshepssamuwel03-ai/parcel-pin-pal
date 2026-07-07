@@ -79,6 +79,23 @@ function Settings() {
       </section>
 
       <section className="mt-4 rounded-2xl bg-card p-4 shadow-soft">
+        <h2 className="mb-2 text-sm font-bold text-muted-foreground">Account</h2>
+        <Row icon={<User className="size-5 text-primary" />} label={email || "Signed in"} sub="Cloud sync enabled" />
+        <button
+          onClick={resync}
+          className="mt-2 flex w-full items-center gap-3 rounded-xl bg-muted px-4 py-3 font-medium"
+        >
+          <RefreshCw className="size-5 text-secondary" /> Sync now
+        </button>
+        <button
+          onClick={signOut}
+          className="mt-2 flex w-full items-center gap-3 rounded-xl bg-muted px-4 py-3 font-medium"
+        >
+          <LogOut className="size-5" /> Sign out
+        </button>
+      </section>
+
+      <section className="mt-4 rounded-2xl bg-card p-4 shadow-soft">
         <h2 className="mb-2 text-sm font-bold text-muted-foreground">Data</h2>
         <Row icon={<MapPin className="size-5 text-primary" />} label={`${customers.length} customers saved`} />
         <button
