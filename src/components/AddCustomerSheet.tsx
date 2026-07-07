@@ -23,10 +23,24 @@ export function AddCustomerSheet({
   const [address, setAddress] = useState("");
   const [landmark, setLandmark] = useState("");
   const [notes, setNotes] = useState("");
+  const [photo, setPhoto] = useState<string | undefined>(undefined);
   const [saving, setSaving] = useState(false);
   const ctrl = useRef<MapControl | null>(null);
+  const fileRef = useRef<HTMLInputElement | null>(null);
 
   const lowAccuracy = accuracy != null && accuracy > 40;
+
+  const onPickPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 8 * 1024 * 1024) {
+      toast.error("Photo too large (max 8MB)");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => setPhoto(reader.result as string);
+    reader.readAsDataURL(file);
+  };
 
   const reset = () => {
     setName("");
@@ -34,6 +48,7 @@ export function AddCustomerSheet({
     setAddress("");
     setLandmark("");
     setNotes("");
+    setPhoto(undefined);
   };
 
   const save = () => {
