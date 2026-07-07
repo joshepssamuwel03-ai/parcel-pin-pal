@@ -127,7 +127,7 @@ async function flushPending() {
   if (pending.size) {
     const rows = customers.filter((c) => pending.has(c.id)).map(toRow);
     if (rows.length) {
-      const { error } = await supabase.from("customers").upsert(rows);
+      const { error } = await supabase.from("customers").upsert(rows as never);
       if (!error) saveSet(pendingKey(), new Set());
     }
   }
@@ -211,7 +211,7 @@ async function pushOne(id: string) {
   if (!userId) return;
   const c = customers.find((x) => x.id === id);
   if (!c) return;
-  const { error } = await supabase.from("customers").upsert(toRow(c));
+  const { error } = await supabase.from("customers").upsert(toRow(c) as never);
   if (!error) {
     const s = getSet(pendingKey());
     s.delete(id);
