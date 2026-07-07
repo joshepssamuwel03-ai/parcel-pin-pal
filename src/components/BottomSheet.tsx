@@ -9,7 +9,7 @@ export function BottomSheet({
 }: {
   open: boolean;
   onClose: () => void;
-  children: ReactNode;
+  children?: ReactNode;
   title?: string;
 }) {
   useEffect(() => {
