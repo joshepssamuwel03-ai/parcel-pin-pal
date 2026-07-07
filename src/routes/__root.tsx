@@ -12,7 +12,8 @@ import { Toaster } from "sonner";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { getStoredTheme } from "../lib/store";
+import { getStoredTheme, setActiveUser } from "../lib/store";
+import { supabase } from "../integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
@@ -135,10 +136,22 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", getStoredTheme() === "dark");
-  }, []);
+
+    supabase.auth.getSession().then(({ data }) => {
+      setActiveUser(data.session?.user?.id ?? null);
+    });
+
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+      setActiveUser(session?.user?.id ?? null);
+      router.invalidate();
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>

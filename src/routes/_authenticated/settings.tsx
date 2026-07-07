@@ -1,12 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Moon, Sun, Info, Shield, Trash2, MapPin, Heart } from "lucide-react";
+import { Moon, Sun, Info, Shield, Trash2, MapPin, Heart, LogOut, User, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
-import { CREDIT, customerStore, getStoredTheme, setStoredTheme } from "@/lib/store";
+import { CREDIT, customerStore, getStoredTheme, setStoredTheme, syncFromCloud } from "@/lib/store";
 import { useCustomers } from "@/lib/use-customers";
+import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 
-export const Route = createFileRoute("/settings")({
+export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({
     meta: [
       { title: "Settings — Parcel Tracker" },
@@ -18,16 +20,32 @@ export const Route = createFileRoute("/settings")({
 
 function Settings() {
   const [dark, setDark] = useState(false);
+  const [email, setEmail] = useState("");
   const customers = useCustomers();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     setDark(getStoredTheme() === "dark");
+    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? ""));
   }, []);
 
   const toggleDark = () => {
     const next = !dark;
     setDark(next);
     setStoredTheme(next ? "dark" : "light");
+  };
+
+  const signOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  };
+
+  const resync = async () => {
+    await syncFromCloud();
+    toast.success("Synced with cloud");
   };
 
   const clearAll = () => {
@@ -61,6 +79,23 @@ function Settings() {
       </section>
 
       <section className="mt-4 rounded-2xl bg-card p-4 shadow-soft">
+        <h2 className="mb-2 text-sm font-bold text-muted-foreground">Account</h2>
+        <Row icon={<User className="size-5 text-primary" />} label={email || "Signed in"} sub="Cloud sync enabled" />
+        <button
+          onClick={resync}
+          className="mt-2 flex w-full items-center gap-3 rounded-xl bg-muted px-4 py-3 font-medium"
+        >
+          <RefreshCw className="size-5 text-secondary" /> Sync now
+        </button>
+        <button
+          onClick={signOut}
+          className="mt-2 flex w-full items-center gap-3 rounded-xl bg-muted px-4 py-3 font-medium"
+        >
+          <LogOut className="size-5" /> Sign out
+        </button>
+      </section>
+
+      <section className="mt-4 rounded-2xl bg-card p-4 shadow-soft">
         <h2 className="mb-2 text-sm font-bold text-muted-foreground">Data</h2>
         <Row icon={<MapPin className="size-5 text-primary" />} label={`${customers.length} customers saved`} />
         <button
@@ -74,7 +109,7 @@ function Settings() {
       <section className="mt-4 rounded-2xl bg-card p-4 shadow-soft">
         <h2 className="mb-2 text-sm font-bold text-muted-foreground">About</h2>
         <Row icon={<Info className="size-5 text-primary" />} label="Parcel Customer Location Tracker" sub="Version 1.0.0" />
-        <Row icon={<Shield className="size-5 text-secondary" />} label="Offline-first" sub="Your data stays on this device" />
+        <Row icon={<Shield className="size-5 text-secondary" />} label="Cloud sync + offline" sub="Saved to your account, works offline too" />
       </section>
 
       <div className="mt-6 flex flex-col items-center gap-2 rounded-2xl gradient-brand p-5 text-center text-primary-foreground shadow-float">

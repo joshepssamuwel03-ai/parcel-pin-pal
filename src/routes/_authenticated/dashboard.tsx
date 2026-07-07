@@ -5,7 +5,7 @@ import { PageShell } from "@/components/PageShell";
 import { useCustomers } from "@/lib/use-customers";
 import { deliveredToday, type Customer } from "@/lib/store";
 
-export const Route = createFileRoute("/dashboard")({
+export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
       { title: "Dashboard — Parcel Tracker" },

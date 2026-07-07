@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useRef, useState } from "react";
-import { Search, Bell, Crosshair, Layers, Plus, X, MapPin } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Search, Bell, Crosshair, Layers, Plus, X, MapPin, Moon, Sun } from "lucide-react";
 import { MapView, type MapControl } from "@/components/MapView";
 import { AddCustomerSheet } from "@/components/AddCustomerSheet";
 import { CustomerDetailSheet } from "@/components/CustomerDetailSheet";
@@ -8,9 +8,9 @@ import { BottomNav } from "@/components/BottomNav";
 import { useGps } from "@/lib/use-gps";
 import { useCustomers, useHydrated } from "@/lib/use-customers";
 import { markerColor } from "@/lib/markers";
-import type { Customer } from "@/lib/store";
+import { getStoredTheme, setStoredTheme, type Customer } from "@/lib/store";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/")({
   component: Home,
 });
 
@@ -32,6 +32,14 @@ function Home() {
   const [selected, setSelected] = useState<Customer | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
   const [satellite, setSatellite] = useState(false);
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => setDark(getStoredTheme() === "dark"), []);
+  const toggleTheme = () => {
+    const next = !dark;
+    setDark(next);
+    setStoredTheme(next ? "dark" : "light");
+  };
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -87,13 +95,17 @@ function Home() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="grid size-11 place-items-center rounded-full bg-card/85 shadow-soft backdrop-blur transition-transform active:scale-90"
+            >
+              {dark ? <Sun className="size-5" /> : <Moon className="size-5" />}
+            </button>
             <button className="relative grid size-11 place-items-center rounded-full bg-card/85 shadow-soft backdrop-blur transition-transform active:scale-90">
               <Bell className="size-5" />
               <span className="absolute right-2.5 top-2.5 size-2 rounded-full bg-accent" />
             </button>
-            <div className="grid size-11 place-items-center rounded-full gradient-brand text-sm font-bold text-primary-foreground shadow-soft">
-              R
-            </div>
           </div>
         </div>
 
