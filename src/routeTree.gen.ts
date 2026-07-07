@@ -10,102 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as DeliveriesRouteImport } from './routes/deliveries'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as CustomersRouteImport } from './routes/customers'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedDeliveriesRouteImport } from './routes/_authenticated/deliveries'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedCustomersRouteImport } from './routes/_authenticated/customers'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/_authenticated/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/_authenticated/settings',
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DeliveriesRoute = DeliveriesRouteImport.update({
-  id: '/deliveries',
+const AuthenticatedDeliveriesRoute = AuthenticatedDeliveriesRouteImport.update({
+  id: '/_authenticated/deliveries',
   path: '/deliveries',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/_authenticated/dashboard',
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CustomersRoute = CustomersRouteImport.update({
-  id: '/customers',
+const AuthenticatedCustomersRoute = AuthenticatedCustomersRouteImport.update({
+  id: '/_authenticated/customers',
   path: '/customers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/customers': typeof CustomersRoute
-  '/dashboard': typeof DashboardRoute
-  '/deliveries': typeof DeliveriesRoute
-  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/customers': typeof AuthenticatedCustomersRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/deliveries': typeof AuthenticatedDeliveriesRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/customers': typeof CustomersRoute
-  '/dashboard': typeof DashboardRoute
-  '/deliveries': typeof DeliveriesRoute
-  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/customers': typeof AuthenticatedCustomersRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/deliveries': typeof AuthenticatedDeliveriesRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/customers': typeof CustomersRoute
-  '/dashboard': typeof DashboardRoute
-  '/deliveries': typeof DeliveriesRoute
-  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/customers': typeof AuthenticatedCustomersRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/deliveries': typeof AuthenticatedDeliveriesRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
+    | '/sitemap.xml'
     | '/customers'
     | '/dashboard'
     | '/deliveries'
     | '/settings'
-    | '/sitemap.xml'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
+    | '/sitemap.xml'
     | '/customers'
     | '/dashboard'
     | '/deliveries'
     | '/settings'
-    | '/sitemap.xml'
+    | '/'
   id:
     | '__root__'
-    | '/'
-    | '/customers'
-    | '/dashboard'
-    | '/deliveries'
-    | '/settings'
     | '/sitemap.xml'
+    | '/_authenticated/customers'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/deliveries'
+    | '/_authenticated/settings'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  CustomersRoute: typeof CustomersRoute
-  DashboardRoute: typeof DashboardRoute
-  DeliveriesRoute: typeof DeliveriesRoute
-  SettingsRoute: typeof SettingsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  AuthenticatedCustomersRoute: typeof AuthenticatedCustomersRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDeliveriesRoute: typeof AuthenticatedDeliveriesRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -117,51 +117,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/deliveries': {
-      id: '/deliveries'
-      path: '/deliveries'
-      fullPath: '/deliveries'
-      preLoaderRoute: typeof DeliveriesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/customers': {
-      id: '/customers'
-      path: '/customers'
-      fullPath: '/customers'
-      preLoaderRoute: typeof CustomersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
+    '/_authenticated/': {
+      id: '/_authenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/deliveries': {
+      id: '/_authenticated/deliveries'
+      path: '/deliveries'
+      fullPath: '/deliveries'
+      preLoaderRoute: typeof AuthenticatedDeliveriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/customers': {
+      id: '/_authenticated/customers'
+      path: '/customers'
+      fullPath: '/customers'
+      preLoaderRoute: typeof AuthenticatedCustomersRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  CustomersRoute: CustomersRoute,
-  DashboardRoute: DashboardRoute,
-  DeliveriesRoute: DeliveriesRoute,
-  SettingsRoute: SettingsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  AuthenticatedCustomersRoute: AuthenticatedCustomersRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDeliveriesRoute: AuthenticatedDeliveriesRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
