@@ -1,4 +1,4 @@
-name: Build and Release APK
+name: Build Web App
 
 on:
   push:
@@ -21,9 +21,8 @@ jobs:
       - name: Build project
         run: bun run build
 
-      - name: Create WebView APK
-        uses: NomiTech/web-to-apk-action@v1
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
         with:
-          dist_dir: dist
-          app_name: "MyParcelPinPal"
-          package_name: "com.parcel.pinpal"
+          name: web-build
+          path: dist/
