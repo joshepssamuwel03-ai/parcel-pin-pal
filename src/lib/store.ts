@@ -110,6 +110,7 @@ function fromRow(r: Record<string, unknown>): Customer {
     lat: r.lat as number,
     lng: r.lng as number,
     accuracy: (r.accuracy as number) ?? undefined,
+    photo: (r.photo as string) ?? undefined,
     favorite: !!r.favorite,
     createdAt: (r.created_at as string) ?? new Date().toISOString(),
     deliveries: (r.deliveries as Delivery[]) ?? [],
