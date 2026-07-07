@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { MapPin, Loader2, Check } from "lucide-react";
+import { MapPin, Loader2, Check, Camera, X } from "lucide-react";
 import { BottomSheet } from "./BottomSheet";
 import { MapView, type MapControl } from "./MapView";
 import { customerStore } from "@/lib/store";
