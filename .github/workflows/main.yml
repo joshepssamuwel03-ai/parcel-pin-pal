@@ -1,0 +1,29 @@
+name: Build and Release APK
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build project
+        run: bun run build
+
+      - name: Create WebView APK
+        uses: NomiTech/web-to-apk-action@v1
+        with:
+          dist_dir: dist
+          app_name: "MyParcelPinPal"
+          package_name: "com.parcel.pinpal"
