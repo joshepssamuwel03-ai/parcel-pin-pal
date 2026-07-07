@@ -5,7 +5,10 @@ export function useCustomers(): Customer[] {
   const [list, setList] = useState<Customer[]>([]);
   useEffect(() => {
     setList(customerStore.getAll());
-    return customerStore.subscribe(() => setList(customerStore.getAll()));
+    const unsub = customerStore.subscribe(() => setList(customerStore.getAll()));
+    return () => {
+      unsub();
+    };
   }, []);
   return list;
 }
