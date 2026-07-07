@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "viewport",
         content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover",
       },
-      { title: "Parcel Customer Location Tracker" },
+      { title: "Customer Location Tracker" },
       {
         name: "description",
         content:
@@ -91,13 +91,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { name: "author", content: "RM THILINA PRASAD (Joshep)" },
       { name: "theme-color", content: "#2563EB" },
-      { property: "og:title", content: "Parcel Customer Location Tracker" },
+      { property: "og:title", content: "Customer Location Tracker" },
       {
         property: "og:description",
-        content: "Save and instantly locate customer delivery locations. Built for parcel riders.",
+        content: "Premium delivery app for riders to save customer GPS locations and instantly find repeat customers on a live map.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Customer Location Tracker" },
+      { name: "twitter:description", content: "Premium delivery app for riders to save customer GPS locations and instantly find repeat customers on a live map." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/d08a19d4-5743-4148-a9a0-60c2c1982593" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/d08a19d4-5743-4148-a9a0-60c2c1982593" },
     ],
     links: [
       {
@@ -111,7 +115,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
       },
       { rel: "manifest", href: "/manifest.webmanifest" },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
