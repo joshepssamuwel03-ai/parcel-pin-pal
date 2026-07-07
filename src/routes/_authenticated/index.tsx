@@ -95,13 +95,17 @@ function Home() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="grid size-11 place-items-center rounded-full bg-card/85 shadow-soft backdrop-blur transition-transform active:scale-90"
+            >
+              {dark ? <Sun className="size-5" /> : <Moon className="size-5" />}
+            </button>
             <button className="relative grid size-11 place-items-center rounded-full bg-card/85 shadow-soft backdrop-blur transition-transform active:scale-90">
               <Bell className="size-5" />
               <span className="absolute right-2.5 top-2.5 size-2 rounded-full bg-accent" />
             </button>
-            <div className="grid size-11 place-items-center rounded-full gradient-brand text-sm font-bold text-primary-foreground shadow-soft">
-              R
-            </div>
           </div>
         </div>
 
